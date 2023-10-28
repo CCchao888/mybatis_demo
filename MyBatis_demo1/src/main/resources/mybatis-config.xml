@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+<!--MyBatis核心配置文件中，标签的顺序：
+    (properties?,settings?,typeAliases?,typeHandlers?,objectFactory?,
+    objectWrapperFactory?,reflectorFactory?,plugins?,environments?,
+    databaseIdProvider?,mappers?)
+ -->
+
+<!--    引入properties文件-->
+    <properties resource="jdbc.properties"/>
+
+<!--    设置类型别名，且类型别名不区分大小写，不写alias默认就是类名-->
+    <typeAliases>
+<!--        <typeAlias type="me.thinkchao.mybatis.pojo.User" alias="User"></typeAlias>-->
+
+<!--        以包为单位，将包下所有类型设置成默认的类型别名，即类名且不区分大小写，这样在接口映射文件中就不需要写全类名-->
+        <package name="me.thinkchao.mybatis.pojo"/>
+    </typeAliases>
+
+<!--    配置连接数据库的环境-->
+    <environments default="development">
+        <environment id="development">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="${jdbc.driver}"/>
+                <property name="url" value="jdbc:mysql://localhost:3306/mybatis?useUnicode=true&amp;characterEncoding=utf-8"/>
+                <property name="username" value="root"/>
+                <property name="password" value="123456"/>
+            </dataSource>
+        </environment>
+    </environments>
+
+
+<!--    引入映射文件-->
+    <mappers>
+<!--        <mapper resource="mappers/UserMapper.xml"/>-->
+
+<!--        以包单位引入映射文件
+            要求：
+            1、mapper接口所在的包要映射文件所在的包一致
+            2、mapper接口要和映射文件的名字一致
+            -->
+        <package name="me.thinkchao.mybatis.mapper"/>
+    </mappers>
+</configuration>

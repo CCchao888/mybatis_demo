@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="me.thinkchao.mybatis.mapper.ParameterMapper">
+
+    <select id="getAllUser" resultType="user">
+        select * from user
+    </select>
+
+    <select id="getUserByUsername" resultType="user">
+        select * from user where username = #{username}
+#           select * from user where username = '${username}'
+    </select>
+
+    <select id="checkLogin" resultType="user">
+#         select * from user where username = '${param1}'  and password = '${param2}'
+        select * from user where username = #{arg0}  and password = #{arg1}
+    </select>
+    <select id="checkLoginByMap" resultType="user">
+        #         select * from user where username = '${param1}'  and password = '${param2}'
+        select * from user where username = #{username}  and password = #{password}
+    </select>
+    <select id="checkLoginByParam" resultType="user">
+        #         select * from user where username = '${param1}'  and password = '${param2}'
+        select * from user where username = #{username}  and password = #{password}
+    </select>
+
+    <insert id="insertUser">
+        insert into user values(null,#{username},#{password},#{age},#{sex},#{email})
+    </insert>
+</mapper>

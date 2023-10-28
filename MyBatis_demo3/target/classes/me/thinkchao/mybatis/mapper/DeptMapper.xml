@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="me.thinkchao.mybatis.mapper.DeptMapper">
+
+<!--    Dept getEmpAndDeptByStepTwo(@Param("did") Integer did);-->
+    <select id="getEmpAndDeptByStepTwo" resultType="Dept">
+        select * from dept where did = #{did}
+    </select>
+
+<!--    Dept getDeptAndEmp(@Param("did") Integer did);-->
+    <resultMap id="deptAndEmpResultMap" type="Dept">
+        <id property="did" column="did"></id>
+        <result property="deptName" column="dept_name"></result>
+        <!--  collection即集合，ofType是集合内的存储的类型      -->
+        <collection property="emps" ofType="Emp">
+            <id property="eid" column="eid"></id>
+            <result property="empName" column="emp_name"></result>
+            <result property="age" column="age"></result>
+            <result property="sex" column="sex"></result>
+            <result property="email" column="email"></result>
+        </collection>
+    </resultMap>
+    <select id="getDeptAndEmp" resultMap="deptAndEmpResultMap">
+        select * from dept left join emp e on dept.did = e.did where e.did = #{did}
+    </select>
+
+<!--    Dept getDeptAndEmpByStepOne(@Param("did") Integer did);-->
+    <resultMap id="getDeptAndEmpByStepOne" type="Dept">
+        <id property="did" column="did"></id>
+        <result property="deptName" column="dept_name"></result>
+        <collection property="emps"
+                    select="me.thinkchao.mybatis.mapper.EmpMapper.getDeptAndEmpByStepTwo"
+                    column="did">
+        </collection>
+    </resultMap>
+    <select id="getDeptAndEmpByStepOne" resultMap="getDeptAndEmpByStepOne">
+        select * from dept where did = #{did}
+    </select>
+</mapper>
+
+
